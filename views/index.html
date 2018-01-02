@@ -13,7 +13,6 @@
         <p>Введіть вершини графу через кому</p>
         <input id="vertex-list" placeholder="v1, v2, ...">
         <input type="button" value="Додати вершини" onclick="submitGraph()">
-        <input type="button" value="setDefault" onclick="setDefaultGraph()">
     </fieldset>
 
     <fieldset class="graph-visualization">
@@ -33,6 +32,7 @@
         <label for="secondVertShortPath">Виберіть другу вершини</label>
         <select id="secondVertShortPath"></select>
         <input type="button" value="знайти шлях" onclick="findShortPath()">
+        <div id="displayShortPath"></div>
     </fieldset>
 </form>
 </body>
