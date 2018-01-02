@@ -7,8 +7,8 @@ var users = require('./routes/users');
 var port = 3001;
 
 var app = express();
-app.listen(port, function () {
-  console.log('Server listening on port ' + port + '…');
+app.listen(process.env.PORT || 3001, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 // view engine setup
