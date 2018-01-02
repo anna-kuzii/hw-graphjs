@@ -13,7 +13,7 @@ app.listen(process.env.PORT || 3001, function(){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
+app.set('view engine', 'jade');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/vivagraphjs', express.static(__dirname + '/node_modules/vivagraphjs/dist/'));
