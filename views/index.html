@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graph</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <script type="text/javascript" src="/javascripts/graph.js"></script>
+    <script type="text/javascript" src="/javascripts/script.js"></script>
+    <script src="/vivagraphjs/vivagraph.js"></script>
+</head>
+<body>
+<form id="add-edges">
+    <fieldset>
+        <p>Введіть вершини графу через кому</p>
+        <input id="vertex-list" placeholder="v1, v2, ...">
+        <input type="button" value="Додати вершини" onclick="submitGraph()">
+        <input type="button" value="setDefault" onclick="setDefaultGraph()">
+    </fieldset>
+
+    <fieldset class="graph-visualization">
+        <label for="firstVert">Виберіть першу вершини</label>
+        <select id="firstVert" onchange="onChangeFirstVert(this)"></select>
+        <label for="secondVert">Виберіть другу вершини</label>
+        <select id="secondVert"></select>
+        <input type="button" value="додати ребро" onclick="addEdgeGraph()">
+        <input type="button" value="намалювати граф" onclick="drawGraph()">
+        <div id="graphDiv"></div>
+    </fieldset>
+
+    <fieldset>
+        <p>Виберіть вершини між якими потрібно знайти найкоротший шлях</p>
+        <label for="firstVertShortPath">Виберіть першу вершини</label>
+        <select id="firstVertShortPath"></select>
+        <label for="secondVertShortPath">Виберіть другу вершини</label>
+        <select id="secondVertShortPath"></select>
+        <input type="button" value="знайти шлях" onclick="findShortPath()">
+    </fieldset>
+</form>
+</body>
+</html>
