@@ -1,10 +1,5 @@
 var g, vg;
 
-function setDefaultGraph() {
-    document.getElementById('vertex-list').value = 'v0,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10';
-    submitGraph();
-}
-
 function submitGraph() {
     var enteredGraph = document.getElementById('vertex-list');
     var selects = document.querySelectorAll('#add-edges select');
@@ -16,12 +11,13 @@ function submitGraph() {
 
     g = new Graph(enteredGraph.value);
     vg = Viva.Graph.graph();
+
     addNodeVG();
 
     selects.forEach(function (item) {
         item.length = 0;
 
-        g.vertexList.forEach(function (element) {
+        g.validVertexList.forEach(function (element) {
             var opt = document.createElement('option');
             opt.innerHTML = element;
             item.appendChild(opt);
@@ -31,7 +27,7 @@ function submitGraph() {
 
 function addNodeVG() {
     for (var i = 0; i < g.vertices; i++) {
-        vg.addNode(g.vertexList[i]);
+        vg.addNode(g.validVertexList[i]);
     }
 }
 
@@ -66,6 +62,14 @@ function onChangeFirstVert(item) {
 }
 
 function drawGraph() {
+    var container = document.getElementById("graphDiv");
+
+    if (container.hasChildNodes() === true) {
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+    }
+
     var graphics = Viva.Graph.View.svgGraphics(),
         nodeSize = g.vertices,
         layout = Viva.Graph.Layout.forceDirected(vg, {
@@ -75,7 +79,7 @@ function drawGraph() {
             gravity: -0.6
         }),
         renderer = Viva.Graph.View.renderer(vg, {
-            container: document.getElementById('graphDiv'),
+            container: container,
             layout: layout,
             graphics: graphics
         });

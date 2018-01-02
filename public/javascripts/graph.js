@@ -1,6 +1,12 @@
 function Graph(vertexList) {
-    this.vertexList = vertexList.trim().split(',');
-    this.vertices = this.vertexList.length;
+    this.vertexList = vertexList.split(',');
+    this.validVertexList = this.vertexList.reduce(function (res, item) {
+        if (item.trim().length > 0 && res.indexOf(item) === -1) {
+            res.push(item.trim());
+        }
+        return res;
+    }, []);
+    this.vertices = this.validVertexList.length;
     this.edges = 0;
     this.adj = [];
     for (var i = 0; i < this.vertices; ++i) {
@@ -9,7 +15,6 @@ function Graph(vertexList) {
     }
     this.addEdge = addEdge;
     this.getVertexIndexByName = getVertexIndexByName;
-    this.showGraph = showGraph;
     this.bfsByIndex = bfsByIndex;
     this.bfsByName = bfsByName;
     this.edgeTo = [];
@@ -24,7 +29,7 @@ function Graph(vertexList) {
 }
 
 function getVertexIndexByName(name) {
-    return this.vertexList.indexOf(name);
+    return this.validVertexList.indexOf(name);
 }
 
 function addEdge(vName, wName) {
@@ -33,7 +38,7 @@ function addEdge(vName, wName) {
     var pushToAdj = function (indexV, indexW) {
         var item = self.adj[indexV];
 
-        if(item.indexOf(indexW) === -1){
+        if (item.indexOf(indexW) === -1) {
             item.push(indexW);
         }
     };
@@ -44,24 +49,7 @@ function addEdge(vName, wName) {
     pushToAdj(indexV, indexW);
     pushToAdj(indexW, indexV);
 
-    console.log('adj', this.adj);
     self.edges++;
-}
-
-function showGraph() {
-    var visited = [];
-    for (var i = 0; i < this.vertices; ++i) {
-        console.log(this.vertexList[i] + " -> ");
-        visited.push(this.vertexList[i]);
-        for (var j = 0; j < this.vertices; ++j) {
-            if ((this.adj[i][j] !== '') && (this.adj[i][j] != undefined)) {
-                if (visited.indexOf(this.vertexList[this.adj[i][j]]) < 0) {
-                    console.log(this.vertexList[this.adj[i][j]] + ' ');
-                }
-            }
-        }
-        visited.pop();
-    }
 }
 
 function bfsByIndex(s) {
@@ -73,7 +61,6 @@ function bfsByIndex(s) {
         if (typeof(v) == "string") {
             return;
         }
-        console.log('Visited vertex: ' + v);
 
         for (var i = 0; i < this.adj[v].length; ++i) {
             var w = this.adj[v][i];
@@ -115,11 +102,21 @@ function hasPathTo(v) {
 }
 
 function printPath(paths) {
-    if(paths == undefined){
-        console.log('incorrect path')
+    var displayShortPath = document.getElementById('displayShortPath');
+
+    if (displayShortPath.hasChildNodes() === true) {
+        while (displayShortPath.firstChild) {
+            displayShortPath.removeChild(displayShortPath.firstChild);
+        }
     }
+
+    if (paths == undefined) {
+        displayShortPath.innerHTML = 'incorrect path';
+    }
+
     while (paths.length > 0) {
         var index = paths.pop();
-        console.log(this.vertexList[index] + '->');
+        var textNode = document.createTextNode(this.validVertexList[index] + '-');
+        displayShortPath.appendChild(textNode);
     }
 }
